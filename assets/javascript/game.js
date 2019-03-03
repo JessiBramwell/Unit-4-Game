@@ -1,6 +1,8 @@
 var targetNumber, numberOptions, counter;
+var wins = 0;
+var losses = 0;
 
-function targetNumber() {
+function createNumber() {
     targetNumber = Math.floor(Math.random() * (120 - 20)) + 19;
     $("#target-number").text(targetNumber);
 }
@@ -13,46 +15,47 @@ function numberRange() {
             numberOptions.push(x);
         }
     }
-    console.log(numberOptions);
 }
-function addBtn() {
-    for (var i = 0; i < 4; i++) {
+function btnValue() {
+    for (var i = 0; i < numberOptions.length; i++) {
         var img = $("<button>");
-        img.addClass("crystal-img");
-        img.attr("data-value", numberOptions[i]);
+        img.addClass("block-img").attr("data-value", numberOptions[i]);
         $("#img-wrapper").append(img);
     }
 }
+
 function check() {
-    $(".crystal-img").on("click", function () {
-        var crystalValue = ($(this).attr("data-value"));
-        crystalValue = parseInt(crystalValue);
-        counter += crystalValue;
-        update();
+    $(".block-img").on("click", function () {
+        var blockValue = ($(this).attr("data-value"));
+        blockValue = parseInt(blockValue);
+        counter += blockValue;
         if (counter === targetNumber) {
-            won();
+            wins++;
+            gameInit();
         }
         else if (counter >= targetNumber) {
-            lost();
+            losses++;
+            gameInit();
         }
-
+        update();
     });
 }
 function update() {
     $("#stats").text(counter);
+    $("#wins").text(wins);
+    $("#losses").text(losses);
 }
-function won() {
-    alert("you win")
+function gameInit() {
+    $("#img-wrapper").empty();
+    counter = 0;
+    update();
+    createNumber();
+    numberRange();
+    btnValue();
+    check();
 }
-function lost() {
-    alert("you lost")
-}
+gameInit();
 
-targetNumber();
-numberRange();
-addBtn();
-check();
-counter = 0;
 
 
 
