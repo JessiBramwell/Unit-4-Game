@@ -2,10 +2,13 @@ var targetNumber, numberOptions, counter;
 var wins = 0;
 var losses = 0;
 
+// Create and print target number 
 function createNumber() {
     targetNumber = Math.floor(Math.random() * (120 - 20)) + 19;
     $("#target-number").text(targetNumber);
 }
+
+// Create an array of four random numbers
 function numberRange() {
     numberOptions = [];
 
@@ -16,6 +19,8 @@ function numberRange() {
         }
     }
 }
+
+// Apply random values to buttons data attribute
 function btnValue() {
     for (var i = 0; i < numberOptions.length; i++) {
         var img = $("<button>");
@@ -24,11 +29,13 @@ function btnValue() {
     }
 }
 
+// Add guesses and determine if user won or lost 
 function check() {
     $(".block-img").on("click", function () {
         var blockValue = ($(this).attr("data-value"));
         blockValue = parseInt(blockValue);
         counter += blockValue;
+        console.log('clicked')
         if (counter === targetNumber) {
             wins++;
             gameInit();
@@ -40,11 +47,15 @@ function check() {
         update();
     });
 }
+
+// Update DOM
 function update() {
     $("#stats").text(counter);
     $("#wins").text(wins);
     $("#losses").text(losses);
 }
+
+// Clear values for previous round and start new game 
 function gameInit() {
     $("#img-wrapper").empty();
     counter = 0;
